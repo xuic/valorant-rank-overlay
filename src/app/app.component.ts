@@ -19,11 +19,11 @@ export class AppComponent implements OnInit {
   profileForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^(\s)*(\S)+(\s)*$/)
+      Validators.pattern(/^(\s)*(\S)(\S|\s)*(\s)*$/)
     ]),
     tag: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^(\s)*(\S)+(\s)*$/)
+      Validators.pattern(/^(\s)*(\S)(\S|\s)*(\s)*$/)
     ])
   })
 

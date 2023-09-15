@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { V1Account, V1Mmr, V2Mmr, V3Matches, Uuid } from '../type/response.type';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, iif, map, switchMap, timer, zip, retry, of } from 'rxjs';
+import { EMPTY, iif, map, switchMap, timer, zip, retry, of, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +64,12 @@ export class ApiService {
         )
       }),
       retry({
-        delay: 10000
+        delay: (error: any, retryCount: number) => {
+          if ([400, 403, 404, 408, 503].includes(error.status) || retryCount > 9) {
+            throw new Error(`${error.status} ${error.error.errors[0].message}`)
+          }
+          return interval(10000)
+        }
       })
     )
   }

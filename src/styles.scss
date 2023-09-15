@@ -1,10 +1,21 @@
+// regular style toast
+@import 'ngx-toastr/toastr';
+
+
 /* You can add global styles to this file, and also import other style files */
 * {
   font-family: 'Oswald', sans-serif;
   font-weight: 400;
+  color: #333;
 }
 
 html, body {
   margin: 0;
   padding: 0;
+}
+
+input, textarea {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #333; /* You can adjust the color and thickness of the outline */
 }

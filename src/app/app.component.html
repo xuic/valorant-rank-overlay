@@ -5,15 +5,19 @@
   ></app-overlay>
 </ng-container>
 <ng-template #setting>
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <label for="name">Name: </label>
-    <input id="name" type="text" formControlName="name" />
-    <label for="tag">Tag: </label>
-    <input id="tag" type="text" formControlName="tag" maxlength="5"/>
-    <label for="color">Color: </label>
-    <input id="color" type="text" formControlName="color"/>
-    <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-  </form>
+  <div class="setting">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Name: </label>
+        <input id="name" type="text" formControlName="name" spellcheck="false"/>
+      </div>
+      <div>
+        <label for="tag">Tag: </label>
+        <input id="tag" type="text" formControlName="tag" maxlength="5" spellcheck="false"/>
+      </div>
+      <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+    </form>
+  </div>
 </ng-template>
 
 
