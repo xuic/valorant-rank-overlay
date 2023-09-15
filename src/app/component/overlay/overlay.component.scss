@@ -1,0 +1,39 @@
+.container {
+  width: 430px;
+  height: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+  column-gap: 20px;
+  font-size: 26px;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(to right, rgba(#8888cc, 0.3), transparent);
+  border-image-slice: 1;
+  box-sizing: border-box;
+  > div {
+    max-width: 100px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.icon {
+  width: 100px;
+  align-items: center;
+  img {
+    width: 78px;
+    height: 78px;
+    filter: brightness(1.1) drop-shadow(0 0 10px rgba(#fff, 0.5)) drop-shadow(0 0 20px rgba(#8888cc, 0.5));
+  }
+}
+
+.small {
+  font-size: 16px;
+  filter: opacity(80%);
+}
+.bold {
+  font-weight: 700;
+}

@@ -8,13 +8,19 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": true
+          "standalone": true,
+          "skipTests": true
         },
         "@schematics/angular:directive": {
-          "standalone": true
+          "standalone": true,
+          "skipTests": true
         },
         "@schematics/angular:pipe": {
-          "standalone": true
+          "standalone": true,
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -103,6 +109,14 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/valorant-rank-overlay/",
+            "name": "xuic",
+            "email": "dear991082@gamil.com"
           }
         }
       }

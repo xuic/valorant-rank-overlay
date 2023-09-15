@@ -1,14 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OverlayComponent } from './component/overlay/overlay.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, ReactiveFormsModule, OverlayComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'valorant-rank-overlay';
+export class AppComponent implements OnInit {
+
+  private route = inject(ActivatedRoute)
+  private router = inject(Router)
+
+  profileForm = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^(\s)*(\S)+(\s)*$/)
+    ]),
+    tag: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^(\s)*(\S)+(\s)*$/)
+    ])
+  })
+
+  name: string | undefined
+  tag: string | undefined
+
+  constructor() { }
+
+  onSubmit() {
+    this.router.navigate([], {
+      queryParams: {
+        name: this.profileForm.value.name,
+        tag: this.profileForm.value.tag
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next: params => {
+        this.name = params['name']
+        this.tag = params['tag']
+      }
+    })
+  }
 }
