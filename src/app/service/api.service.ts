@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { V1Account, V1Mmr, V2Mmr, V3Matches, Uuid } from '../type/response.type';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, iif, map, switchMap, timer, zip, retry, of, interval } from 'rxjs';
+import { EMPTY, iif, map, switchMap, timer, zip, retry, of, interval, repeat } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +42,12 @@ export class ApiService {
   }
 
   polling(region: string, name: string, tag: string, puuid: Uuid) {
-    return timer(0, this.REQUEST_FREQUENCY).pipe(
-      switchMap(_ => zip([
-        this.getMmrResponse(region, name, tag).pipe(map(res => res.data)),
-        this.getMatchesResponse(region, name, tag).pipe(map(res => res.data[0])),
-        this.getWinrateResponse(region, name, tag).pipe(map(res => res.data)),
-        of(puuid)
-      ]))
-    )
+    return zip([
+      this.getMmrResponse(region, name, tag).pipe(map(res => res.data)),
+      this.getMatchesResponse(region, name, tag).pipe(map(res => res.data[0])),
+      this.getWinrateResponse(region, name, tag).pipe(map(res => res.data)),
+      of(puuid)
+    ])
   }
 
   start(name: string, tag: string) {
@@ -59,7 +57,7 @@ export class ApiService {
         const {region, name, tag, puuid} = account
         return iif(
           () => !!account,
-          this.polling(region, name, tag, puuid),
+          this.polling(region, name, tag, puuid).pipe(repeat({delay: this.REQUEST_FREQUENCY})),
           EMPTY
         )
       }),
