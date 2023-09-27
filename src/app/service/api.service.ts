@@ -57,13 +57,16 @@ export class ApiService {
         const {region, name, tag, puuid} = account
         return iif(
           () => !!account,
-          this.polling(region, name, tag, puuid).pipe(repeat({delay: this.REQUEST_FREQUENCY})),
+          this.polling(region, name, tag, puuid).pipe(
+            repeat({delay: this.REQUEST_FREQUENCY}),
+            retry({delay: () => interval(10000)})
+          ),
           EMPTY
         )
       }),
       retry({
         delay: (error: any) => {
-          console.error(`${error.status} ${error.error.errors[0].message}`)
+          new Error(`${error.status} ${error.error.errors[0].message}`)
           return interval(10000)
         }
       })
