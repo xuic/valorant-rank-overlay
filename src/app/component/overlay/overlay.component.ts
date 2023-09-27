@@ -54,9 +54,11 @@ export class OverlayComponent implements OnInit {
       },
       error: err => {
         this.toastr.error(err.message, err.name)
-        this.router.navigate([], {
-          queryParams: {}
-        })
+        if (err.message.substring(0, 3) === '404') {
+          this.router.navigate([], {
+            queryParams: {}
+          })
+        }
       }
     })
   }

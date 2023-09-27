@@ -62,10 +62,8 @@ export class ApiService {
         )
       }),
       retry({
-        delay: (error: any, retryCount: number) => {
-          if ([400, 403, 404, 408, 503].includes(error.status) || retryCount > 9) {
-            throw new Error(`${error.status} ${error.error.errors[0].message}`)
-          }
+        delay: (error: any) => {
+          console.error(`${error.status} ${error.error.errors[0].message}`)
           return interval(10000)
         }
       })
